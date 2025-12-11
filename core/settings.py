@@ -79,7 +79,7 @@ TEMPLATES = [
 # ----------------------------
 DATABASES = {
     'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'
+        default='postgresql://mkarimdb:WdLzVfa4r8uyOWq2cVCmoxS9uk83m6Ib@dpg-d4td6bruibrs73cg2feg-a.oregon-postgres.render.com:5432/mkarimdb'
     )
 }
 

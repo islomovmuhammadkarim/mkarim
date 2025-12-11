@@ -11,7 +11,7 @@ def home(request):
     services = Service.objects.all()
     experiences =Experience.objects.all()  # iterable
     educations = Eduacation.objects.all()   # iterable
-    social_media = about_me.social_media
+    social_media = about_me.social_media if about_me else []
     projects = Project.objects.all()
     banner = Banner.objects.filter(is_active=True).first() 
     client_stats = ClientStat.objects.filter(is_active=True)  # faqat faol statlar
@@ -25,9 +25,7 @@ def home(request):
         'projects':projects,
         "banner": banner,
         'client_stats': client_stats,
-        'services':services,
-        'media_url': settings.MEDIA_URL,
-        'media_root': settings.MEDIA_ROOT,       
+        'services':services,      
 
     }
     return render(request, 'portfolio/home.html',context)

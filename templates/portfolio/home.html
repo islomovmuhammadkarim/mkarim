@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% block title %}Bosh sahifa - Mkarim{% endblock %}
+{% load static %}
+{% block content %}
+
+<!-- Men haqimda bo‘limi -->
+<section class="about-area">
+    <div class="container">
+        <div class="row">
+            <!-- Men haqimda kartochka -->
+            <div class="col-md-6" data-aos="zoom-in">
+                <div class="about-me-box shadow-box">
+                    <!-- To‘liq sahifaga link -->
+                    <a class="overlay-link" href="{% url 'about' %}"></a>
+                    <img src="{% static 'portfolio/images/bg1.png' %}" alt="Fon" class="bg-img">
+                    
+                    <!-- Men haqimda rasm -->
+                    <div class="img-box">
+                        <img src="{{ about.image.url }}" alt="Men haqimda rasm">
+                    </div>
+                    
+                    <!-- Shaxsiy ma’lumotlar -->
+                    <div class="infos">
+                        <h4>VEB DIZAYNER</h4>
+                        <h3>{{about.my_name}}</h3>
+                        <p>{{about.about_me | truncatewords:10}}</p>  {# Matnni 10 ta so‘z bilan qisqartiradi #}
+                        <a href="{% url 'about' %}" class="about-btn">
+                            <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Malakalar va loyihalar bo‘limi -->
+            <div class="col-md-6">
+                <div class="about-credentials-wrap">
+                    
+                    <!-- Banner bo‘limi -->
+                    <div data-aos="zoom-in">
+                        <div class="banner shadow-box">
+                            <div class="marquee">
+                                <div>
+                                    {% if banner %}
+                                        <span>{{ banner.title }} <b>{{ banner.featured_text }}</b> 
+                                        <img src="{% static 'portfolio/images/star1.svg' %}" alt="Yulduz"> 
+                                        {{ banner.title }} <b>{{ banner.featured_text }}</b></span>
+                                    {% else %}
+                                        <span>SO‘NGGI ISHLAR VA <b>TA’KIDLANGAN</b> 
+                                        <img src="{% static 'portfolio/images/star1.svg' %}" alt="Yulduz"> 
+                                        SO‘NGGI ISHLAR VA <b>TA’KIDLANGAN</b></span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Malakalar va birinchi loyiha -->
+                    <div class="gx-row d-flex gap-24">
+                        <!-- Malakalar kartochkasi -->
+                        <div data-aos="zoom-in">
+                            <div class="about-crenditials-box info-box shadow-box h-full">
+                                <a class="overlay-link" href="{% url 'credentials' %}"></a>
+                                <img src="{% static 'portfolio/images/bg1.png' %}" alt="Fon" class="bg-img">
+                                <img src="{% static 'portfolio/images/sign.png' %}" alt="Imzo">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="infos">
+                                        <h4>Batafsil ma’lumot</h4>
+                                        <h1>Malakalar</h1>
+                                    </div>
+                                    <a href="{% url 'credentials' %}" class="about-btn">
+                                        <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Birinchi loyiha -->
+                        {% for project in projects %}
+                            {% if forloop.first %}
+                            
+                            <div data-aos="zoom-in">
+                                <div class="about-project-box info-box shadow-box h-full">
+                                    <!-- To‘liq loyiha sahifasiga link -->
+                                    <a class="overlay-link" href="{% url 'works' %}"></a>
+
+                                    <!-- Fon rasmi -->
+                                    <img src="{% static 'portfolio/images/bg1.png' %}" alt="Fon" class="bg-img">
+
+                                    <!-- Loyihaga oid rasm -->
+                                    {% if project.projectimage_set.first %}
+                                        <img src="{{ project.projectimage_set.first.image.url }}" alt="{{ project.title }}" class="bg-img">
+                                    {% else %}
+                                        <img src="{% static 'portfolio/images/my-works.png' %}" alt="Loyiha rasmi" class="bg-img">
+                                    {% endif %}
+
+                                    <!-- Loyihaga oid ma’lumotlar -->
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="infos">
+                                            <h4>Loyihalar namoyishi</h4>
+                                            <h1>{{ project.title }}</h1>
+                                            <p>{{ project.year }}</p>
+                                        </div>
+                                        <a href="{% url 'works' %}" class="about-btn">
+                                            <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                        
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog va Xizmatlar bo‘limi -->
+        <div class="row mt-24">
+            <div class="col-md-12">
+                <div class="blog-service-profile-wrap d-flex gap-24">
+                    <!-- Blog kartochkasi -->
+                    <div data-aos="zoom-in">
+                        <div class="about-blog-box info-box shadow-box h-full">
+                            <a href="{% url 'blog_list' %}" class="overlay-link"></a>
+                            <img src="{% static 'portfolio/images/bg1.png' %}" alt="Fon" class="bg-img">
+                            <img src="{% static 'portfolio/images/gfonts.png' %}" alt="GFonts">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="infos">
+                                    <h4>Blog</h4>
+                                    <h1>Qiziq albata!</h1>
+                                </div>
+                                <a href="{% url 'blog_list' %}" class="about-btn">
+                                    <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Xizmatlar kartochkasi -->
+                    <div data-aos="zoom-in" class="flex-1">
+                        <div class="about-services-box info-box shadow-box h-full">
+                            <a href="{% url 'services' %}" class="overlay-link"></a>
+                            <img src="{% static 'portfolio/images/bg1.png' %}" alt="Fon" class="bg-img">
+                            <div class="icon-boxes">
+                            {% for service in services %}
+                                <i class="{{service.icon}}"></i>
+                            {% endfor %}
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="infos">
+                                    <h4>Mutaxassislik</h4>
+                                    <h1>Xizmatlar</h1>
+                                </div>
+                                <a href="{% url 'services' %}" class="about-btn">
+                                    <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ijtimoiy profillar -->
+                    <div data-aos="zoom-in">
+                        <div class="about-profile-box info-box shadow-box h-full">
+                            <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
+
+                            <div class="inner-profile-icons shadow-box">
+                                {% for social in social_media %}
+                                    <a href="{{ social.url }}" target="_blank" title="{{ social.name }}">
+                                        <i class="{{ social.icon }}"></i>
+                                    </a>
+                                {% endfor %}
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="infos">
+                                    <h4>Mening profillarim</h4>
+                                    <h1>Profiles</h1>
+                                </div>
+
+                                <a href="{% url 'contact' %}" class="about-btn">
+                                    <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistika va kontakt bo‘limi -->
+        <div class="row mt-24">
+            <!-- Statistika kartochkasi -->
+            <div class="col-md-6" data-aos="zoom-in">
+                <div class="about-client-box info-box shadow-box">
+                <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
+                    <div class="clients d-flex align-items-start gap-24 justify-content-center">
+                        {% for stat in client_stats %}
+                        <div class="client-item">
+                            <h1>{{ stat.number }}</h1>
+                            <p>{{ stat.title|linebreaksbr }}</p>
+                            <p>{{ stat.description|linebreaksbr }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kontakt kartochkasi -->
+            <div class="col-md-6" data-aos="zoom-in">
+                <div class="about-contact-box info-box shadow-box">
+                    <a class="overlay-link" href="{% url 'contact' %}"></a>
+                    <img src="{% static 'portfolio/images/bg1.png' %}" alt="Fon" class="bg-img">
+                    <img src="{% static 'portfolio/images/icon2.png' %}" alt="Icon" class="star-icon">
+                    <h1>Keling <br>birga <span>ishlaylik.</span></h1>
+                    <a href="{% url 'contact' %}" class="about-btn">
+                        <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

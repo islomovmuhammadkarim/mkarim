@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mening Portfolio{% endblock %}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
+
+    <!-- Local static CSS -->
+    <link rel="stylesheet" href="{% static 'portfolio/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'portfolio/css/aos.css' %}">
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    <main class="main-homepage">
+
+        <!-- Header -->
+        <header class="header-area">
+            <div class="container">
+                <div class="gx-row d-flex align-items-center justify-content-between">
+                    <a href="{% url 'home' %}" class="logo">
+                        <img src="{% static 'portfolio/images/22.png' %}" alt="Logo" width="100" height="100">
+
+                    </a>
+
+                    <nav class="navbar">
+                        <ul class="menu">
+                            <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                                <a href="{% url 'home' %}">Bosh sahifa</a>
+                            </li>
+                            <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                                <a href="{% url 'about' %}">Men haqimda</a>
+                            </li>
+                            <li class="{% if request.resolver_match.url_name == 'works' %}active{% endif %}">
+                                <a href="{% url 'works' %}">Ishlarim</a>
+                            </li>
+                            <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                                <a href="{% url 'contact' %}">Bog‘lanish</a>
+                            </li>
+                        </ul>
+                        <a href="{% url 'contact' %}" class="theme-btn">Gaplashamiz</a>
+                    </nav>
+
+                    <a href="{% url 'contact' %}" class="theme-btn">Gaplashamiz</a>
+
+                    <div class="show-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content block -->
+        <section id="content">
+            {% block content %}
+            <!-- Sahifa kontenti shu yerga keladi -->
+            {% endblock %}
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer-area">
+            <div class="container">
+                <div class="footer-content text-center">
+                    <a href="{% url 'home' %}" class="logo">
+                        <img src="{% static 'portfolio/images/22.png' %}" alt="Logo" width="100" height="100">
+                    </a>
+                    <ul class="footer-menu">
+                        <li><a href="{% url 'home' %}">Bosh sahifa</a></li>
+                        <li><a href="{% url 'about' %}">Men haqimda</a></li>
+                        <li><a href="{% url 'works' %}">Ishlarim</a></li>
+                        <li><a href="{% url 'contact' %}">Bog‘lanish</a></li>
+                    </ul>
+                    <p class="copyright">
+                        &copy; Barcha huquqlar himoyalangan <span>Muhammad Karim Islomov</span> tomonidan
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+    
+
+    <!-- Local static JS (body oxirida) -->
+    <script src="{% static 'portfolio/js/jquery-3.6.4.js' %}"></script>
+    <script src="{% static 'portfolio/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'portfolio/js/aos.js' %}"></script>
+    <script src="{% static 'portfolio/js/main.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

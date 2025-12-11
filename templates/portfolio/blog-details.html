@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ blog.title }} - Gridx{% endblock %}
+
+{% block content %}
+<main class="main-workdetails-page">
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="breadcrumb-content" data-aos="fade-up">
+                <p>BOSH SAHIFA - BLOG TAFSILOTLARI</p>
+                <h1 class="section-heading">
+                    <img src="{% static 'portfolio/images/star-2.png' %}" alt="Star"> 
+                    {{ blog.title }} 
+                    <img src="{% static 'portfolio/images/star-2.png' %}" alt="Star">
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Details -->
+    <section class="blog-details-area">
+        <div class="container">
+            <div class="row">
+
+                <!-- Blog Content -->
+                <div class="col-md-8">
+                    <div class="blog-details-content">
+                        {% if blog.image %}
+                        <div class="img-box">
+                            <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                        </div>
+                        {% endif %}
+                        <span class="meta">{{ blog.created_at|date:"d M Y" }} - Kommentlar ({{ comments.count }})</span>
+                        <h1>{{ blog.title }}</h1>
+                        <p>{{ blog.content|safe }}</p>
+
+                        {% if blog.list_items %}
+                        <ul class="list">
+                            {% for item in blog.list_items.all %}
+                            <li>- {{ item.text }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                        <div class="tags">
+                            {% for tag in blog.tags.all %}
+                            <a href="?tag={{ tag.slug }}" class="theme-btn">{{ tag.name }}</a>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Comments -->
+                        <div class="comments-and-form-wrap">
+                            <div class="comments-and-form-wrap-inner shadow-box">
+                                <h2>{{ comments.count }} Komment</h2>
+
+                                <div class="comments">
+                                    {% for comment in comments %}
+                                    <div class="comment-list">
+                                        <div class="comment-avatar">
+                                            <img src="{% static 'portfolio/images/comment.png' %}" alt="Avatar">
+                                        </div>
+                                        <div class="comment-body">
+                                            <span class="date">{{ comment.created_at|date:"d M Y" }}</span>
+                                            <h3>{{ comment.name }}</h3>
+                                            <p>{{ comment.message|linebreaks }}</p>
+                                            <a href="#reply-form" class="reply-btn theme-btn" data-comment-id="{{ comment.id }}">Javob berish</a>
+                                        </div>
+                                    </div>
+
+                                    {% if comment.children.all %}
+                                    <div class="children">
+                                        {% for child in comment.children.all %}
+                                        <div class="comment-list">
+                                            <div class="comment-avatar">
+                                                <img src="{% static 'portfolio/images/comment.png' %}" alt="Avatar">
+                                            </div>
+                                            <div class="comment-body">
+                                                <span class="date">{{ child.created_at|date:"d M Y" }}</span>
+                                                <h3>{{ child.name }}</h3>
+                                                <p>{{ child.message|linebreaks }}</p>
+                                                <a href="#reply-form" class="reply-btn theme-btn" data-comment-id="{{ child.id }}">Javob berish</a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+
+                                <!-- Comment Form -->
+                                <div class="comment-form" id="reply-form">
+                                    <h2>Izoh qoldirish</h2>
+                                    <form method="POST" action="{% url 'add_comment' blog.slug %}">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            <input type="text" name="name" placeholder="Ismingiz*" required>
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="email" name="email" placeholder="Email*" required>
+                                        </div>
+                                        <div class="input-group">
+                                            <textarea name="message" placeholder="Xabaringiz*" required></textarea>
+                                        </div>
+                                        <input type="hidden" name="parent_id" id="parent_id">
+                                        <div class="input-group">
+                                            <button class="theme-btn" type="submit">Yuborish</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-md-4">
+                    <div class="blog-sidebar">
+                        <div class="blog-sidebar-inner">
+
+                            <!-- Qidiruv Widget -->
+                            <div class="blog-sidebar-widget search-widget" data-aos="zoom-in">
+                                <div class="blog-sidebar-widget-inner shadow-box">
+                                    <form method="get" action="{% url 'blog_list' %}">
+                                        <input 
+                                            type="text"
+                                            name="search"
+                                            placeholder="Bu yerda qidirish..."
+                                            value="{{ request.GET.search }}"
+                                        >
+                                        <button class="theme-btn">Qidirish</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- So‘nggi postlar -->
+                            <div class="blog-sidebar-widget recent-post-widget" data-aos="zoom-in">
+                                <div class="blog-sidebar-widget-inner shadow-box">
+                                    <h3>So‘nggi postlar</h3>
+                                    <ul>
+                                        {% for p in recent_posts %}
+                                        <li>
+                                            <a href="{% url 'blog_details' p.slug %}">{{ p.title }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Kategoriyalar -->
+                            <div class="blog-sidebar-widget categories-widget" data-aos="zoom-in">
+                                <div class="blog-sidebar-widget-inner shadow-box">
+                                    <h3>Kategoriyalar</h3>
+                                    <ul>
+                                        {% for cat in categories %}
+                                        <li><a href="?category={{ cat.slug }}">- {{ cat.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Teglar -->
+                            <div class="blog-sidebar-widget tags-widget" data-aos="zoom-in">
+                                <div class="blog-sidebar-widget-inner shadow-box">
+                                    <h3>Teglar</h3>
+                                    <ul>
+                                        {% for tag in tags %}
+                                        <li><a class="theme-btn" href="?tag={{ tag.slug }}">{{ tag.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script>
+    // Javob berish tugmasi
+    document.querySelectorAll('.reply-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const parentId = btn.getAttribute('data-comment-id');
+            document.getElementById('parent_id').value = parentId;
+            document.getElementById('reply-form').scrollIntoView({behavior: 'smooth'});
+        });
+    });
+</script>
+{% endblock %}

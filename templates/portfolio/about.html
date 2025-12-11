@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="main-aboutpage">
+
+    <!-- About -->
+    <section class="about-area">
+        <div class="container">
+
+            <!-- About Me -->
+            <div class="d-flex about-me-wrap align-items-start gap-24">
+
+                <div data-aos="zoom-in">
+                    <div class="about-image-box shadow-box">
+                        <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
+                        <div class="image-inner">
+                            <img src="{{ about.image.url }}" alt="Men haqimda rasm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-details" data-aos="zoom-in">
+                    <h1 class="section-heading" data-aos="fade-up">
+                        <img src="{% static 'portfolio/images/star-2.png' %}" alt="Yulduz"> 
+                        O‘zim haqimda 
+                        <img src="{% static 'portfolio/images/star-2.png' %}" alt="Yulduz">
+                    </h1>
+                    <div class="about-details-inner shadow-box">
+                        <img src="{% static 'portfolio/images/icon2.png' %}" alt="Yulduz">
+                        <h1>{{ about.my_name }}</h1>
+                        <p>{{ about.about_me }}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Experience & Education -->
+            <div class="row mt-24">
+
+                <!-- Experience -->
+                <div class="col-md-6" data-aos="zoom-in">
+                    <div class="about-edc-exp about-experience shadow-box">
+                        <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
+                        <h3>TAJRIBA</h3>
+                        <ul>
+                            {% for experience in experiences %}
+                                <li>
+                                    <p class="date">{{ experience.start_year }} - {{ experience.end_year }}</p>
+                                    <h2>{{ experience.position }}</h2>
+                                    <p class="type">{{ experience.company }}</p>
+                                    {% if experience.description %}
+                                        <p class="description">{{ experience.description }}</p>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="col-md-6" data-aos="zoom-in">
+                    <div class="about-edc-exp about-education shadow-box">
+                        <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
+                        <h3>TA'LIM</h3>
+                        <ul>
+                            {% for education in educations %}
+                                <li>
+                                    <p class="date">{{ education.start_year }} - {{ education.end_year }}</p>
+                                    <h2>{{ education.degree }}</h2>
+                                    <p class="type">{{ education.university }}</p>
+                                    {% if education.description %}
+                                        <p class="description">{{ education.description }}</p>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Profiles, Contact & Credentials -->
+            <div class="row mt-24">
+                <div class="col-md-12">
+                    <div class="d-flex profile-contact-credentials-wrap gap-24">
+
+                        <!-- Profiles -->
+                        <div data-aos="zoom-in">
+                            <div class="about-profile-box info-box shadow-box h-full">
+                                <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
+
+                                <div class="inner-profile-icons shadow-box">
+                                    {% for social in social_media %}
+                                        <a href="{{ social.url }}" target="_blank" title="{{ social.name }}">
+                                            <i class="{{ social.icon }}"></i>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="infos">
+                                        <h4>Mening profillarim</h4>
+                                        <h1>Profiles</h1>
+                                    </div>
+
+                                    <a href="{% url 'contact' %}" class="about-btn">
+                                        <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact -->
+                        <div data-aos="zoom-in" class="flex-1">
+                            <div class="about-contact-box info-box shadow-box">
+                                <a class="overlay-link" href="{% url 'contact' %}"></a>
+                                <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
+                                <img src="{% static 'portfolio/images/icon2.png' %}" alt="Icon" class="star-icon">
+                                <h1>Keling <br>birgalikda <span>ishlaylik.</span></h1>
+                                <a href="{% url 'contact' %}" class="about-btn">
+                                    <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Credentials -->
+                        <div data-aos="zoom-in" class="h-full">
+                            <div class="about-crenditials-box info-box shadow-box">
+                                <a class="overlay-link" href="{% url 'credentials' %}"></a>
+                                <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
+                                <img src="{% static 'portfolio/images/sign.png' %}" alt="Imzo">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="infos">
+                                        <h4>Men haqimda batafsil</h4>
+                                        <h1>Malakalar</h1>
+                                    </div>
+
+                                    <a href="{% url 'credentials' %}" class="about-btn">
+                                        <img src="{% static 'portfolio/images/icon.svg' %}" alt="Tugma">
+                                    </a>
+                                </div>
+                            </div>
+                        </div> 
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+{% endblock %}

@@ -1,0 +1,33 @@
+# Python cache fayllari
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django fayllari
+*.sqlite3
+# db.sqlite3
+
+# Static va media fayllar
+staticfiles/
+media/
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE / editor fayllari
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS fayllari
+.DS_Store
+Thumbs.db
+
+# Log fayllari
+*.log
+
+# Secret fayllar
+*.env

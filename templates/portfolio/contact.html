@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
+
+<main class="main-contactpage">
+
+    <!-- Contact -->
+    <section class="contact-area">
+        <div class="container">
+            <div class="gx-row d-flex justify-content-between gap-24">
+
+                <!-- Contact Info -->
+                <div class="contact-infos">
+                    <h3 data-aos="fade-up">Kontakt ma'lumotlari</h3>
+                    <ul class="contact-details">
+                        {% for info in contact_infos %}
+                        <li class="d-flex align-items-center" data-aos="zoom-in">
+                            <div class="icon-box shadow-box">
+                                {% if info.type == 'email' %}
+                                    <i class="iconoir-mail"></i>
+                                {% elif info.type == 'phone' %}
+                                    <i class="iconoir-phone"></i>
+                                {% elif info.type == 'address' %}
+                                    <i class="iconoir-pin-alt"></i>
+                                {% endif %}
+                            </div>
+                            <div class="right">
+                                <span>{{ info.title }}</span>
+                                <h4>{{ info.line1 }}</h4>
+                                {% if info.line2 %}<h4>{{ info.line2 }}</h4>{% endif %}
+                                {% if info.line3 %}<h4>{{ info.line3 }}</h4>{% endif %}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <h3 data-aos="fade-up">Ijtimoiy tarmoqlar</h3>
+                    <ul class="social-links d-flex align-center" data-aos="zoom-in">
+                        {% for sm in social_media %}
+                            {% if sm.name|lower == 'instagram' or sm.name|lower == 'telegram' or sm.name|lower == 'linkedin' %}
+                                <li>
+                                    <a class="shadow-box" href="{{ sm.url }}" target="_blank" title="{{ sm.name }}">
+                                        <i class="{{ sm.icon }}"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+
+
+                <!-- Contact Form -->
+                <div data-aos="zoom-in" class="contact-form">
+                    <div class="shadow-box">
+                        <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
+                        <img src="{% static 'portfolio/images/icon3.png' %}" alt="Icon">
+                        <h1>Keling <span>birgalikda ishlaylik.</span></h1>
+
+                        <!-- Messages -->
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <form method="POST" action="{% url 'contact' %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" name="full_name" id="full-name" placeholder="Ismingiz *" required>
+                            </div>
+                            <div class="input-group">
+                                <input type="email" name="email" id="email" placeholder="Email *" required>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="subject" id="subject" placeholder="Mavzu *" required>
+                            </div>
+                            <div class="input-group">
+                                <textarea name="message" id="message" placeholder="Xabaringiz *" required></textarea>
+                            </div>
+                            <div class="input-group">
+                                <button class="theme-btn submit-btn" type="submit">Xabar yuborish</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}

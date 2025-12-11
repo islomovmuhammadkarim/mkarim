@@ -36,7 +36,7 @@ def about(request):
     about_me = AboutMe.objects.first()
     experiences =Experience.objects.all()  # iterable
     educations = Eduacation.objects.all()   # iterable
-    social_media = about_me.social_media
+    social_media =  about_me.social_media if about_me else []
 
     context = {
         "about": about_me,

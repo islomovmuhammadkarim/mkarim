@@ -3,6 +3,7 @@ from .models import Banner,Service,AboutMe,Eduacation,Experience,Project,Project
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 import requests
+from django.conf import settings
 
 # Create your views here.
 def home(request):
@@ -25,6 +26,8 @@ def home(request):
         "banner": banner,
         'client_stats': client_stats,
         'services':services,
+        'media_url': settings.MEDIA_URL,
+        'media_root': settings.MEDIA_ROOT,       
 
     }
     return render(request, 'portfolio/home.html',context)

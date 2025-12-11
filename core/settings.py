@@ -1,28 +1,46 @@
 from pathlib import Path
 import os
+import dj_database_url
 
-
+# ----------------------------
+# Base directory
+# ----------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'fallback_secret')
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+# ----------------------------
+# Secret key & debug
+# ----------------------------
+SECRET_KEY = 'django-insecure-3*sc0w#wo_z_kn20@hf1gi%b5k!xevc4*0931(w8zm$!apfb=w'
+DEBUG = True
+ALLOWED_HOSTS = ["*"]
 
-
+# ----------------------------
+# Installed apps
+# ----------------------------
 INSTALLED_APPS = [
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Your apps
     'blog',
     'portfolio',
+
+    # Third-party apps
     'ckeditor',
+    'ckeditor_uploader',
 ]
 
+# ----------------------------
+# Middleware
+# ----------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -31,8 +49,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# ----------------------------
+# URL & WSGI
+# ----------------------------
 ROOT_URLCONF = 'core.urls'
+WSGI_APPLICATION = 'core.wsgi.application'
 
+# ----------------------------
+# Templates
+# ----------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -49,35 +74,28 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
-
-
-
+# ----------------------------
+# Database
+# ----------------------------
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'
+    )
 }
 
-
+# ----------------------------
+# Password validators
+# ----------------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
-
+# ----------------------------
+# Internationalization
+# ----------------------------
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -86,26 +104,31 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-
-
-STATIC_URL = 'static/'
+# ----------------------------
+# Static files
+# ----------------------------
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_ROOT_URL = '/media/'
+# ----------------------------
+# Media files
+# ----------------------------
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# ----------------------------
+# Auth
+# ----------------------------
+
 AUTH_USER_MODEL = 'portfolio.CustomUser'
-
-
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-INSTALLED_APPS += ['ckeditor_uploader',]
-
-CKEDITOR_UPLOAD_PATH = "uploads/"
-
+# ----------------------------
+# CKEditor
+# ----------------------------
+CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Full',
@@ -113,3 +136,4 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
     },
 }
+

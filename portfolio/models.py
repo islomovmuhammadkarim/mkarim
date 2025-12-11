@@ -40,11 +40,10 @@ class AboutMe(models.Model):
     about_me = models.TextField(
         help_text="Write a short description about yourself"
     )
-    image = models.ImageField(
-        upload_to='about_me/image',
-        blank=True,
-        null=True,
-        help_text="Upload your profile image (optional)"
+    image_name = models.CharField(
+        max_length=100,
+        default='port.jpg',
+        help_text="Static images/portfolio papkasidagi rasm nomi"
     )
     skills = models.ManyToManyField(
         'Skill',

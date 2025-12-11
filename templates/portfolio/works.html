@@ -21,9 +21,13 @@
                         <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
 
                         <div class="project-img">
-                            {% if project.projectimage_set.all %}
-                                <img src="{{ project.projectimage_set.first.image.url }}" alt="{{ project.title }}">
-                            {% endif %}
+                        {% with project.projectimage_set.first as first_image %}
+                                {% if first_image %}
+                                    <img src="{% static 'portfolio/images/project/' %}{{ first_image.image_name }}" alt="{{ project.title }}">
+                                {% else %}
+                                    <img src="{% static 'portfolio/images/project/default.jpg' %}" alt="{{ project.title }}">
+                                {% endif %}
+                        {% endwith %}
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between">

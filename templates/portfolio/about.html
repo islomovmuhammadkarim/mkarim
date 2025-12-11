@@ -14,7 +14,7 @@
                     <div class="about-image-box shadow-box">
                         <img src="{% static 'portfolio/images/bg1.png' %}" alt="BG" class="bg-img">
                         <div class="image-inner">
-                            <img src="{{ about.image.url }}" alt="Men haqimda rasm">
+                            <img src="{% static 'portfolio/images/' %}{{ about.image_name }}" alt="Men haqimda rasm">
                         </div>
                     </div>
                 </div>

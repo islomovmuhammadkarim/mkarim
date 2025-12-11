@@ -1,7 +1,9 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 from .models import (
-    CustomUser,AboutMe, Eduacation, Experience, Project, ProjectImage,
-    ContactMessage, ContactInfo, Skill, Blog, Comment,Category,Tag,Service
+    CustomUser, AboutMe, Eduacation, Experience, Project, ProjectImage,
+    ContactMessage, ContactInfo, Skill, Blog, Comment, Category, Tag, Service,
+    Banner, ClientStat
 )
 
 # -----------------------------------------
@@ -52,31 +54,43 @@ class SkillAdmin(admin.ModelAdmin):
     search_fields = ("name",)
 
 
-
-
-# Inline class for ProjectImage so that images can be added directly inside Project
+# -----------------------------------------
+# ProjectImage Inline for Project
+# -----------------------------------------
 class ProjectImageInline(admin.TabularInline):
     model = ProjectImage
-    extra = 1  # nechta bo‘sh rasm qo‘shish mumkinligini belgilaydi
+    extra = 1
 
-# Admin class for Project
+
+# -----------------------------------------
+# Project Admin
+# -----------------------------------------
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('title', 'year', 'client', 'project_type', 'is_active', 'create_at')
     list_filter = ('is_active', 'year', 'project_type')
     search_fields = ('title', 'client', 'service', 'project_type')
-    prepopulated_fields = {"slug": ("title",)}  # slug avtomatik hosil bo‘lsin
+    prepopulated_fields = {"slug": ("title",)}
     inlines = [ProjectImageInline]
 
-# Admin registration for ProjectImage (agar alohida ko‘rsatmoqchi bo‘lsangiz)
+
+# -----------------------------------------
+# ProjectImage Admin
+# -----------------------------------------
 @admin.register(ProjectImage)
 class ProjectImageAdmin(admin.ModelAdmin):
-    list_display = ('project', 'image')
+    list_display = ('project', 'image_name', 'image_preview')
+
+    def image_preview(self, obj):
+        if obj.image_name:
+            return mark_safe(f'<img src="/static/portfolio/images/project/{obj.image_name}" style="width: 100px; height:auto;">')
+        return "-"
+    image_preview.short_description = 'Preview'
 
 
-
-
-
+# -----------------------------------------
+# ContactMessage Admin
+# -----------------------------------------
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'email', 'subject', 'created_at')
@@ -84,7 +98,9 @@ class ContactMessageAdmin(admin.ModelAdmin):
     search_fields = ('full_name', 'email', 'subject', 'message')
 
 
-
+# -----------------------------------------
+# ContactInfo Admin
+# -----------------------------------------
 @admin.register(ContactInfo)
 class ContactInfoAdmin(admin.ModelAdmin):
     list_display = ('type', 'title', 'line1', 'line2', 'line3')
@@ -92,25 +108,29 @@ class ContactInfoAdmin(admin.ModelAdmin):
     search_fields = ('title', 'line1', 'line2', 'line3')
 
 
-
-
+# -----------------------------------------
+# Blog Admin
+# -----------------------------------------
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'created_at', 'views')
     prepopulated_fields = {"slug": ("title",)}
     list_filter = ('category', 'tags')
     search_fields = ('title', 'content')
-    filter_horizontal = ('tags',) 
+    filter_horizontal = ('tags',)
 
 
+# -----------------------------------------
+# Category, Tag, Comment Admin
+# -----------------------------------------
 admin.site.register(Category)
 admin.site.register(Tag)
 admin.site.register(Comment)
 
 
-from .models import Service
-
-# Service modelini adminga qo'shish
+# -----------------------------------------
+# Service Admin
+# -----------------------------------------
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('title', 'icon', 'created_at')
@@ -118,9 +138,9 @@ class ServiceAdmin(admin.ModelAdmin):
     list_filter = ('created_at',)
 
 
-
-from .models import Banner
-
+# -----------------------------------------
+# Banner Admin
+# -----------------------------------------
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('title', 'featured_text', 'is_active')
@@ -128,8 +148,9 @@ class BannerAdmin(admin.ModelAdmin):
     search_fields = ('title', 'featured_text')
 
 
-from .models import ClientStat
-
+# -----------------------------------------
+# ClientStat Admin
+# -----------------------------------------
 @admin.register(ClientStat)
 class ClientStatAdmin(admin.ModelAdmin):
     list_display = ('number', 'title', 'description', 'is_active')

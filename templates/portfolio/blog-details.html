@@ -29,7 +29,7 @@
                     <div class="blog-details-content">
                         {% if blog.image %}
                         <div class="img-box">
-                            <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                            <img src="{% static 'portfolio/images/blog/' %}{{ blog.image_name }}" alt="{{ blog.title }}">
                         </div>
                         {% endif %}
                         <span class="meta">{{ blog.created_at|date:"d M Y" }} - Kommentlar ({{ comments.count }})</span>

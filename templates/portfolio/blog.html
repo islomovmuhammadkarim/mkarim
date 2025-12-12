@@ -30,7 +30,6 @@
                         <div class="blog-item" data-aos="zoom-in">
                             {% with full_path='portfolio/images/blog/'|add:item.image_name %}
                                 <img src="{% static full_path %}" alt="{{ item.title }}">
-                                {{item.image_name}}
                             {% endwith %}
 
                             <div class="content">

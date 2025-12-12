@@ -28,9 +28,10 @@
 
                     {% for item in blogs %}
                         <div class="blog-item" data-aos="zoom-in">
-                            <div class="img-box">
-                                <img src="{% static 'portfolio/images/blog/' %}{{ blog.image_name }}" alt="{{ blog.title }}">
-                            </div>
+                            {% with full_path='portfolio/images/blog/'|add:item.image_name %}
+                                <img src="{% static full_path %}" alt="{{ item.title }}">
+                                {{item.image_name}}
+                            {% endwith %}
 
                             <div class="content">
                                 <span class="meta">
